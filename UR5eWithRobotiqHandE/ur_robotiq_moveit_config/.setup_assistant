@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: ur_robotiq_description
+    relative_path: urdf/ur5e_with_robotiq_hande.xacro
+  srdf:
+    relative_path: config/ur5e_with_robotiq_hande.srdf
+  package_settings:
+    author_name: Iryna Hurova
+    author_email: iryna.gurova@gmail.com
+    generated_timestamp: 1697986141
