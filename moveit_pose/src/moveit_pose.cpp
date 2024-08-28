@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 
   // Create the MoveIt MoveGroup Interface
   moveit::planning_interface::MoveGroupInterface move_group_interface =
-    moveit::planning_interface::MoveGroupInterface(node, "ur_manipulator");
+    moveit::planning_interface::MoveGroupInterface(node, "ur_with_gripper");
   move_group_interface.startStateMonitor();
   // print current pose
   geometry_msgs::msg::Pose current_pose =

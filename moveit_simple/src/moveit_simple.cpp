@@ -15,18 +15,18 @@ int main(int argc, char* argv[])
 
   // Create the MoveIt MoveGroup Interface
   using moveit::planning_interface::MoveGroupInterface;
-  auto move_group_interface = MoveGroupInterface(node, "ur_manipulator");
+  auto move_group_interface = MoveGroupInterface(node, "ur_with_gripper");
 
   // Set a target Pose
   auto const target_pose = [] {
     geometry_msgs::msg::Pose msg;
-    msg.position.x =-0.118655;
-    msg.position.y = 0.448053;
-    msg.position.z = 0.557705;
-    msg.orientation.w = 0.079539;
-    msg.orientation.x = 0.995758;
-    msg.orientation.y = 0.045232;
-    msg.orientation.z = 0.009672;
+    msg.position.x =-0.114413;
+    msg.position.y = 0.452296;
+    msg.position.z = 0.552035;
+    msg.orientation.w = 0.085851;
+    msg.orientation.x = 0.995389;
+    msg.orientation.y = 0.041887;
+    msg.orientation.z = 0.008711;
     return msg;
   }();
   move_group_interface.setPoseTarget(target_pose);
