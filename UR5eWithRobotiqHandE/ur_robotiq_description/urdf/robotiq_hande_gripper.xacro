@@ -6,8 +6,8 @@
   <xacro:include filename="$(find ur_robotiq_description)/urdf/robotiq_hande_gripper.urdf.xacro" />
 
   <!-- Robotiq Coupler -->
-  <!--  + Height added by the coupler: 8mm -->
-  <!--  + Reference frame: at the middle (4mm) -->
+  <!--  + Height added by the coupler 8mm -->
+  <!--  + Reference frame at the middle (4mm) -->
   <link name="robotiq_coupler">
     <visual>
       <geometry>

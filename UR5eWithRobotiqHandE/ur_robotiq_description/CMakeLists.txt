@@ -4,7 +4,7 @@ project(ur_robotiq_description)
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 
-install(DIRECTORY urdf meshes 
+install(DIRECTORY urdf rviz meshes config
   DESTINATION share/${PROJECT_NAME}
 )
 
