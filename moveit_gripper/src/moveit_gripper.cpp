@@ -176,25 +176,35 @@ auto const vial = [frame_id = move_group_interface.getPlanningFrame(), &node, &l
   }();
   auto const current_pose=[]{
     geometry_msgs::msg::Pose msg;
-    msg.orientation.w = 0.026771;
-    msg.orientation.x = 0.066415;
-    msg.orientation.y = 0.995455;
-    msg.orientation.z = 0.062786;
+    msg.position.x =-0.125456;
+    msg.position.y = 0.379510;
+    msg.position.z = 0.282653;
+    msg.orientation.w = 0.014040;
+    msg.orientation.x = 0.998404;
+    msg.orientation.y = 0.052713;
+    msg.orientation.z = 0.014626;
     return msg;
   }();
-  moveit_msgs::msg::OrientationConstraint orientation_constraint;
-  orientation_constraint.header.frame_id = move_group_interface.getPoseReferenceFrame();
-  orientation_constraint.link_name = move_group_interface.getEndEffectorLink();
-  orientation_constraint.orientation = current_pose.orientation; //
-  orientation_constraint.absolute_x_axis_tolerance = 0.8;
-  orientation_constraint.absolute_y_axis_tolerance = 0.8;
-  orientation_constraint.absolute_z_axis_tolerance = 0.8;
-  orientation_constraint.weight = 0.5;
-  moveit_msgs::msg::Constraints orientation_constraints;
-  orientation_constraints.orientation_constraints.emplace_back(orientation_constraint);
-  //move_group_interface.setPathConstraints(orientation_constraints);
-
+  moveit_msgs::msg::PositionConstraint box_constraint;
+  box_constraint.header.frame_id = move_group_interface.getPoseReferenceFrame();
+  box_constraint.link_name = move_group_interface.getEndEffectorLink();
+  shape_msgs::msg::SolidPrimitive box;
+  box.type = shape_msgs::msg::SolidPrimitive::BOX;
+  box.dimensions = { 0.1, 0.4, 0.4 };
+  box_constraint.constraint_region.primitives.emplace_back(box);
+  geometry_msgs::msg::Pose box_pose;
+  box_pose.position.x = current_pose.position.x;
+  RCLCPP_INFO(logger,"%.2f",box_pose.position.x);
+  box_pose.position.y = 0.15;
+  box_pose.position.z = 0.45;
+  box_pose.orientation.w = 1.0;
+  box_constraint.constraint_region.primitive_poses.emplace_back(box_pose);
+  box_constraint.weight = 1.0;
+  moveit_msgs::msg::Constraints box_constraints;
+  box_constraints.position_constraints.emplace_back(box_constraint);
+  move_group_interface.setPathConstraints(box_constraints);
   move_group_interface.setPoseTarget(target_pose);
+  move_group_interface.setPlanningTime(30.0);
   auto const [success, plan] = [&move_group_interface] {
     moveit::planning_interface::MoveGroupInterface::Plan msg;
     auto const ok = static_cast<bool>(move_group_interface.plan(msg));

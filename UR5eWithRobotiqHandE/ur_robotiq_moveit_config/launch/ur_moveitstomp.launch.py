@@ -155,16 +155,17 @@ def launch_setup(context, *args, **kwargs):
     }
 
     # Planning Configuration
-    ompl_planning_pipeline_config = {
+    stomp_planning_pipeline_config = {
         "move_group": {
-            "planning_plugin": "ompl_interface/OMPLPlanner",
-            "request_adapters": """default_planner_request_adapters/AddTimeOptimalParameterization default_planner_request_adapters/FixWorkspaceBounds default_planner_request_adapters/FixStartStateBounds default_planner_request_adapters/FixStartStateCollision default_planner_request_adapters/FixStartStatePathConstraints""",
+            "planning_plugin": "stomp_moveit/StompPlanner",  # STOMP planner plugin
             "start_state_max_bounds_error": 0.1,
-
+            "request_adapters":"""default_planning_request_adapters/ResolveConstraintFrames default_planning_request_adapters/ValidateWorkspaceBounds default_planning_request_adapters/CheckStartStateBounds default_planning_request_adapters/CheckStartStateCollision""",
+            "response_adapters": """default_planning_response_adapters/AddTimeOptimalParameterization default_planning_response_adapters/ValidateSolution default_planning_response_adapters/DisplayMotionPath""",
         }
     }
-    ompl_planning_yaml = load_yaml("ur_robotiq_moveit_config", "config/ompl_planning.yaml")
-    ompl_planning_pipeline_config["move_group"].update(ompl_planning_yaml)
+
+    stomp_planning_yaml = load_yaml("ur_robotiq_moveit_config", "config/stomp_planning.yaml")
+    stomp_planning_pipeline_config["move_group"].update(stomp_planning_yaml)
 
     # Trajectory Execution Configuration
     controllers_yaml = load_yaml("ur_moveit_config", "config/controllers.yaml")
@@ -208,7 +209,7 @@ def launch_setup(context, *args, **kwargs):
             robot_description_semantic,
             robot_description_kinematics,
             robot_description_planning,
-            ompl_planning_pipeline_config,
+            stomp_planning_pipeline_config,
             trajectory_execution,
             moveit_controllers,
             planning_scene_monitor_parameters,
@@ -233,7 +234,7 @@ def launch_setup(context, *args, **kwargs):
         parameters=[
             robot_description,
             robot_description_semantic,
-            ompl_planning_pipeline_config,
+            stomp_planning_pipeline_config,
             robot_description_kinematics,
             robot_description_planning,
             warehouse_ros_config,
