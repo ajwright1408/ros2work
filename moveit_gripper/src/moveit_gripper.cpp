@@ -391,8 +391,8 @@ auto const vial = [frame_id = move_group_interface.getPlanningFrame(), &node, &l
   moveit_msgs::msg::Constraints box_constraints;
   box_constraints.position_constraints.emplace_back(box_constraint);
   //move_group_interface.setPathConstraints(box_constraints);
-  move_group_interface.setPlanningTime(60.0);
-  move_group_interface.setNumPlanningAttempts(1000);
+  //move_group_interface.setPlanningTime(60.0);
+  //move_group_interface.setNumPlanningAttempts(1000);
   move_group_interface.setPoseTarget(target_pose);
   
   auto const [success, plan] = [&move_group_interface] {
