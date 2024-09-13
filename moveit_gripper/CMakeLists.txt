@@ -23,6 +23,16 @@ target_link_libraries(moveit_gripper OpenSSL::SSL OpenSSL::Crypto)
 install(TARGETS moveit_gripper
   DESTINATION lib/${PROJECT_NAME})
 
+add_executable(moveit_gripperway src/moveit_gripperway.cpp)
+ament_target_dependencies(moveit_gripperway rclcpp gripper_srv moveit_ros_planning_interface)
+target_include_directories(moveit_gripperway PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_compile_features(moveit_gripperway PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_link_libraries(moveit_gripperway OpenSSL::SSL OpenSSL::Crypto)
+install(TARGETS moveit_gripperway
+  DESTINATION lib/${PROJECT_NAME})
+  
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights

@@ -65,6 +65,10 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "typeindex": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "strstream": "cpp",
+        "future": "cpp",
+        "cfenv": "cpp",
+        "variant": "cpp"
     }
 }

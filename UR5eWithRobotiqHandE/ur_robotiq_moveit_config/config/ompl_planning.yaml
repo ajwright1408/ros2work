@@ -8,6 +8,7 @@ planner_configs:
     goal_bias: 0.05  # When close to goal select goal, with this probability. default: 0.05
   LBKPIECEkConfigDefault:
     type: geometric::LBKPIECE
+    optimization_objective: MechanicalWorkOptimizationObjective
     range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
     border_fraction: 0.9  # Fraction of time focused on boarder default: 0.9
     min_valid_path_fraction: 0.5  # Accept partially valid moves above fraction. default: 0.5
@@ -34,6 +35,7 @@ planner_configs:
   RRTstarkConfigDefault:
     type: geometric::RRTstar
     range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+    optimization_objective: MaximizeMinClearanceObjective
     goal_bias: 0.05  # When close to goal select goal, with this probability? default: 0.05
     delay_collision_checking: 1  # Stop collision checking as soon as C-free parent found. default 1
   TRRTkConfigDefault:
@@ -52,6 +54,29 @@ planner_configs:
     max_nearest_neighbors: 10  # use k nearest neighbors. default: 10
   PRMstarkConfigDefault:
     type: geometric::PRMstar
+  
+  PersistentLazyPRMstar: # use this with a representative environment to create a roadmap
+    type: geometric::LazyPRMstar
+    multi_query_planning_enabled: true
+    store_planner_data: true
+    load_planner_data: false
+    planner_data_path: /tmp/roadmap.graph
+  PersistentLazyPRM: # use this to load a previously created roadmap
+    type: geometric::LazyPRM
+    multi_query_planning_enabled: true
+    store_planner_data: false
+    load_planner_data: true
+    planner_data_path: /tmp/roadmap.graph
+  SemiPersistentLazyPRMstar: # reuses roadmap during lifetime of node but doesn't save/load roadmap to/from disk
+    type: geometric::LazyPRMstar
+    multi_query_planning_enabled: true
+    store_planner_data: false
+    load_planner_data: false
+  SemiPersistentLazyPRM: # reuses roadmap during lifetime of node but doesn't save/load roadmap to/from disk
+    type: geometric::LazyPRM
+    multi_query_planning_enabled: true
+    store_planner_data: false
+    load_planner_data: false
 ur_with_gripper:
   planner_configs:
     - SBLkConfigDefault
@@ -65,7 +90,11 @@ ur_with_gripper:
     - TRRTkConfigDefault
     - PRMkConfigDefault
     - PRMstarkConfigDefault
+    - PersistentLazyPRMstar
+    - PersistentLazyPRM
+    - SemiPersistentLazyPRMstar
+    - PersistentLazyPRM
   ##Note: commenting the following line lets moveit chose RRTConnect as default planner rather than LBKPIECE
   enforce_constrained_state_space: true
   projection_evaluator: joints(shoulder_pan_joint,shoulder_lift_joint)
-  longest_valid_segment_fraction: 0.0005
+  longest_valid_segment_fraction: 0.001

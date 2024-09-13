@@ -33,7 +33,7 @@
   <joint name="world_to_table" type="fixed">
     <parent link="world"/>
     <child link="table"/>
-    <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+    <origin xyz="0 0 -0.0" rpy="0 0 0"/>
   </joint>
 
   <!-- Define the gripper's tool center point (TCP) position and orientation WRT the flange connector -->
